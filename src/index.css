@@ -1,0 +1,99 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+html, button {
+   font-family: 'Poppins', sans-serif;
+}
+body{
+  background-color: #fff;
+  color: #000;
+  
+}
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root{
+  --main-color: #767674;
+}
+ul {
+  list-style: none;
+}
+
+a{
+  color: inherit;
+  text-decoration: none;
+}
+
+h1, h2, h3 {
+  text-transform: capitalize; 
+  /* כדי לא להצטרך לעשות בעצמנו אות גדולה בתחילת מילה */
+}
+
+/* הקטן את הפונטים */
+body {
+  font-size: 14px; 
+}
+
+h1 {
+  font-size: 1.2em;
+}
+
+h2 {
+  font-size: 1.1em;  
+}
+
+/* צמצם את הרווחים */
+.demo-app-main {
+  padding: 10px;
+}
+
+.demo-app-sidebar {
+  padding: 10px;
+}
+
+/* השתמש בסקרול ורטיקלי במקום אופקי */  
+.demo-app-sidebar {
+  max-height: 50vh;
+  overflow-y: scroll;
+}
+
+/* הפוך לsingle column */
+.demo-app-main,
+.demo-app-sidebar {
+  width: 100%;
+}
+
+/* קטן את לוח השנה */
+.fc-header-toolbar {
+  font-size: 12px;  
+}
+
+.fc-col-header-cell {
+  font-size: 12px;
+  padding: 5px;
+}  
+
+/* קטן אייקונים */  
+.fc-prev-button,
+.fc-next-button {
+  font-size: 0.8em;
+}
+
+/* קטן אירועים */
+.fc-event {
+  font-size: 0.8em;
+  padding: 5px;
+}
+
+/* הקטן מרווחים */  
+.fc-daygrid-event {
+  margin: 2px 3px;
+}
+
+/* הקטן בחירת תאריכים */
+.fc-daygrid-day-frame {
+  padding: 5px;
+}

@@ -1,0 +1,30 @@
+/* style.module.css */
+
+/* Container for the team list */
+.teams {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  /* Styling for each team */
+  .team {
+    flex: 1 1 250px; /* Increase the width of each team card */
+    height: 100px; /* Set the height of each team card */
+    padding: 15px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    background-color: darksalmon;
+  }
+  
+  /* Hover effect for each team */
+  .team:hover {
+    background-color: #333; /* Adjust the background color on hover */
+    transform: scale(1.05); /* Slight scale-up effect on hover */
+  }
+  

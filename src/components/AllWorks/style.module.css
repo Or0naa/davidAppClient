@@ -1,0 +1,28 @@
+/* style.module.css */
+
+/* Container for the list of works */
+.worksContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid layout */
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  /* Styling for each work item */
+  .workItem {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    background-color: #a5d3eb;
+  }
+  
+  /* Hover effect for each work item */
+  .workItem:hover {
+    transform: scale(1.05); /* Slight scale-up effect on hover */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow on hover */
+    background-color: #7fc3e8;
+
+  }
+  

@@ -1,0 +1,26 @@
+.navLink {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10%, 1fr));
+    gap: 2rem; /* הפרדה בין כל לינק לשני */
+    color: #1c63ba;
+  }
+  
+  .navLink a {
+    text-decoration: none;
+    color: inherit;
+    padding: 10px;
+    text-align: center;
+  }
+  .navLink a:hover {
+    font-weight: bold;
+    color:#f77d0e;
+  }
+  
+  .navLink a.active {
+    font-weight: bold;
+    color: #f9c311; 
+  }  
+
+  .header{
+    background-color: #a5d3eb;
+  }

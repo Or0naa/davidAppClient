@@ -1,0 +1,109 @@
+import { Route, Routes } from 'react-router-dom'
+import Calendar from './pages/Calendar'
+import DataContext from './context/DataContext'
+import UserContext from './context/UserContext'
+import { useEffect, useState } from 'react'
+import Header from './components/Header'
+import Login from './pages/Login'
+import AllWorks from './components/AllWorks'
+import Employees from './components/Employees'
+import axios from 'axios'
+import OneWork from './pages/OneWork'
+import NewTeam from './pages/NewTeam'
+import TeamInfo from './pages/TeamInfo'
+import AddNewWork from './pages/AddNewWork'
+export default function App() {
+
+  const [employee, setEmployee] = useState([])
+  const [user, setUser] = useState(null)
+  const [team, setTeam] = useState([])
+  const [work, setWork] = useState([])
+  const [oneWork, setOneWork] = useState({})
+
+  useEffect(() => {
+    // הבאת המשתמש מה-LocalStorage
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+
+    // אם יש משתמש שמאוחסן, עדכון של הסטייט
+    if (storedUser) {
+      setUser(storedUser);
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:4141/team');
+        setTeam(response.data);
+      } catch (error) {
+        console.error('Error fetching teams:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:4141/work');
+  
+        if (user.permission !== 'admin') {
+          // יצירת מערך עם כל הצוותים שבהם נמצא העובד
+          const teamsOfUser = team.filter(team => team.teamUsers.some(u => u._id === user._id));
+  
+          // בדיקה אם יש צוותים שבהם נמצא העובד
+          if (teamsOfUser.length > 0) {
+            const filteredData = [];
+  
+            // עבור על כל הצוותים
+            teamsOfUser.forEach(teamOfUser => {
+              // סנון והוספה של העבודות ששייכות לצוות זה
+              const teamWork = response.data.filter(element => element.teamId === teamOfUser._id);
+              filteredData.push(...teamWork);
+            });
+  
+            setWork(filteredData);
+          } else {
+            setWork([]);
+          }
+        } else {
+          setWork(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching teams:', error);
+      }
+    };
+  
+    fetchData();
+  }, [employee._id, employee.permission, team]);
+  
+  
+
+  // console.log(oneWork)
+
+
+  return (
+    <div>
+      <UserContext.Provider value={{ employee, setEmployee, team, setTeam, user, setUser }}>
+        <DataContext.Provider value={{ work, setWork, oneWork, setOneWork }}>
+          <Header />
+          <Routes>
+            <Route path='/' element={<Calendar />} />
+            <Route path='/calendar' element={<Calendar />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/works' element={<AllWorks />} />
+            <Route path='/works/:workId' element={<OneWork />} />
+            <Route path='/employee' element={<Employees />} />
+            <Route path='/newteam' element={<NewTeam />} />
+            <Route path='/teamInfo/:teamId' element={<TeamInfo />} />
+            <Route path='/addNewWork' element={<AddNewWork />} />
+
+
+          </Routes>
+        </DataContext.Provider>
+      </UserContext.Provider>
+    </div>
+  )
+}
