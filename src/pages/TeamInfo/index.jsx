@@ -14,7 +14,7 @@ export default function TeamInfo() {
   useEffect(() => {
     const teamData = async () => {
       try {
-        const res = await axios.get(`http://localhost:4141/team/${teamId.teamId}`)
+        const res = await axios.get(`https://davidapp.onrender.com/team/${teamId.teamId}`)
         setThisTeam(res.data)
       }
       catch {

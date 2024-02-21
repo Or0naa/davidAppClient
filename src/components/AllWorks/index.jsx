@@ -29,7 +29,7 @@ export default function AllWorks() {
 
   const handleDeleteWork = async (w) => {
     try {
-      const res = await axios.delete("http://localhost:4141/work/" + w._id);
+      const res = await axios.delete("https://davidapp.onrender.com/work/" + w._id);
       console.log(res);
       setWork(work.filter((workItem) => workItem._id !== w._id));
       nav("/works");

@@ -39,7 +39,7 @@ export default function AddNewWork() {
     console.log("newWork", newWork);
 
     try {
-      const res = await axios.post("http://localhost:4141/work/create", newWork);
+      const res = await axios.post("https://davidapp.onrender.com/work/create", newWork);
       const createdWorkId = res.data._id;
       
       for (const i of tasks) {
@@ -47,7 +47,7 @@ export default function AddNewWork() {
           workId: createdWorkId,
           taskName: i
         };
-        await axios.post("http://localhost:4141/task/create", task);
+        await axios.post("https://davidapp.onrender.com/task/create", task);
       }
       
       console.log(res);

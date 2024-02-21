@@ -18,7 +18,7 @@ export default function Login() {
     };
 
     try {
-      const res = await axios.post('http://localhost:4141/employee/create', eData);
+      const res = await axios.post('https://davidapp.onrender.com/employee/create', eData);
       console.log(res);
       nav('/');
     } catch (error) {
@@ -33,7 +33,7 @@ export default function Login() {
       email: e.target.email.value,
     };
     try {
-      const res = await axios.post('http://localhost:4141/employee/', eData);
+      const res = await axios.post('https://davidapp.onrender.com/employee/', eData);
       console.log(res);
       setUser(res.data);
       localStorage.setItem('user', JSON.stringify(res.data));

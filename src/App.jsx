@@ -36,7 +36,7 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:4141/team');
+        const response = await axios.get('https://davidapp.onrender.com/team');
         setTeam(response.data);
       } catch (error) {
         console.error('Error fetching teams:', error);
@@ -50,7 +50,7 @@ export default function App() {
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
-  //       const response = await axios.get('http://localhost:4141/work');
+  //       const response = await axios.get('https://davidapp.onrender.com/work');
   
   //       if (user.permission !== 'admin') {
   //         // יצירת מערך עם כל הצוותים שבהם נמצא העובד

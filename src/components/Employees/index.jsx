@@ -22,7 +22,7 @@ export default function Employees() {
     const wontToDelete = confirm("בטוח שאתה רוצה למחוק?")
     if (wontToDelete) {
       try {
-        await axios.delete(`http://localhost:4141/team/${e._id}`)
+        await axios.delete(`https://davidapp.onrender.com/team/${e._id}`)
           .then(console.log("delete done"))
       }
       catch {

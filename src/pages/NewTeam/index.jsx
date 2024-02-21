@@ -12,7 +12,7 @@ export default function NewTeam() {
   useEffect(() => {
     const empData = async () => {
       try {
-        const allEmp = await axios.get("http://localhost:4141/employee");
+        const allEmp = await axios.get("https://davidapp.onrender.com/employee");
         setEmployees(allEmp.data);
       } catch (error) {
         console.log("error:", error);
@@ -33,7 +33,7 @@ export default function NewTeam() {
       color: e.target.color.value,
     };
     try {
-      const res = await axios.post("http://localhost:4141/team/create", teamData);
+      const res = await axios.post("https://davidapp.onrender.com/team/create", teamData);
       console.log(res);
       nav("/employees");
     } catch (error) {

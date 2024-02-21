@@ -13,7 +13,7 @@ export default function EmployeeDetalse() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4141/employee/${employeeId.empId}`);
+        const response = await axios.get(`https://davidapp.onrender.com/employee/${employeeId.empId}`);
         setOneEmployee(response.data);
         console.log("res: ", response.data)
       } catch (error) {

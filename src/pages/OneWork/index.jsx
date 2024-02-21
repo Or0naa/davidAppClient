@@ -27,7 +27,7 @@ export default function OneWork() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4141/work/${workId.workId}`);
+        const response = await axios.get(`https://davidapp.onrender.com/work/${workId.workId}`);
         setOneWork(response.data);
       } catch (error) {
         console.error('Error fetching teams:', error);
@@ -73,7 +73,7 @@ export default function OneWork() {
     console.log(newWork);
 
     try {
-      const res = await axios.put(`http://localhost:4141/work/${workId.workId}`, newWork)
+      const res = await axios.put(`https://davidapp.onrender.com/work/${workId.workId}`, newWork)
         .then((res) => { setOneWork(res.data) })
       // If needed, you can use the updated work ID
       console.log("Work updated successfully", res);
@@ -87,7 +87,7 @@ export default function OneWork() {
         workId: workId.workId,
         taskName: i
       };
-      await axios.post("http://localhost:4141/task/create", task);
+      await axios.post("https://davidapp.onrender.com/task/create", task);
     }
   }
 
@@ -137,7 +137,7 @@ export default function OneWork() {
               {updateWork ? <input type="number" name="price" placeholder='מחיר' /> : <p className={styles.price}>price: {oneWork.price}</p>}
               צוות:
               <p>{team.find(t => t._id === oneWork.teamId)?.teamName}</p>
-              
+
               {updateWork ?
                 <select name="team" onChange={(e) => setTeamId(e.target.value)}>
                   <option value="">--בחר--</option>

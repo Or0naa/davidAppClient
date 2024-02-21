@@ -35,7 +35,7 @@ export default function DemoApp() {
     const fetchData = async () => {
       if (user && user.permission === "admin") {
         try {
-          const response = await axios.get('http://localhost:4141/work');
+          const response = await axios.get('https://davidapp.onrender.com/work');
           if (response.data && response.data.length > 0) {
             console.log("work: ", response.data);
             setWork(response.data);
@@ -54,7 +54,7 @@ export default function DemoApp() {
   
       if (user && user.permission === "employee") {
         try {
-          const response = await axios.get(`http://localhost:4141/employee/works/${user._id}`);
+          const response = await axios.get(`https://davidapp.onrender.com/employee/works/${user._id}`);
           if (response.data && response.data.length > 0) {
             setWork(response.data);
             setInitialEvents(response.data.map(w => ({
@@ -126,7 +126,7 @@ export default function DemoApp() {
 
         }
 
-        const res = await axios.post("http://localhost:4141/work/create", newWork)
+        const res = await axios.post("https://davidapp.onrender.com/work/create", newWork)
           .then((res) => { setWork(work.concat(res.data)) })
 
       }
@@ -248,7 +248,7 @@ export default function DemoApp() {
     else {
 
       try {
-        const res = await axios.put(`http://localhost:4141/work/${event.event.id}`, newEvent);
+        const res = await axios.put(`https://davidapp.onrender.com/work/${event.event.id}`, newEvent);
         console.log("Work updated successfully", res);
       } catch (error) {
         console.error("Error updating work:", error);
