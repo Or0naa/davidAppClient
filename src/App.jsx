@@ -12,9 +12,12 @@ import OneWork from './pages/OneWork'
 import NewTeam from './pages/NewTeam'
 import TeamInfo from './pages/TeamInfo'
 import AddNewWork from './pages/AddNewWork'
+import EmployeeDetalse from './pages/EmployeeDetalse'
 export default function App() {
 
-  const [employee, setEmployee] = useState([])
+  const [employees, setEmployees] = useState([])
+  const [oneEmployee, setOneEmployee] = useState({})
+
   const [user, setUser] = useState(null)
   const [team, setTeam] = useState([])
   const [work, setWork] = useState([])
@@ -44,40 +47,40 @@ export default function App() {
   }, []);
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:4141/work');
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:4141/work');
   
-        if (user.permission !== 'admin') {
-          // יצירת מערך עם כל הצוותים שבהם נמצא העובד
-          const teamsOfUser = team.filter(team => team.teamUsers.some(u => u._id === user._id));
+  //       if (user.permission !== 'admin') {
+  //         // יצירת מערך עם כל הצוותים שבהם נמצא העובד
+  //         const teamsOfUser = team.filter(team => team.teamUsers.some(u => u._id === user._id));
   
-          // בדיקה אם יש צוותים שבהם נמצא העובד
-          if (teamsOfUser.length > 0) {
-            const filteredData = [];
+  //         // בדיקה אם יש צוותים שבהם נמצא העובד
+  //         if (teamsOfUser.length > 0) {
+  //           const filteredData = [];
   
-            // עבור על כל הצוותים
-            teamsOfUser.forEach(teamOfUser => {
-              // סנון והוספה של העבודות ששייכות לצוות זה
-              const teamWork = response.data.filter(element => element.teamId === teamOfUser._id);
-              filteredData.push(...teamWork);
-            });
+  //           // עבור על כל הצוותים
+  //           teamsOfUser.forEach(teamOfUser => {
+  //             // סנון והוספה של העבודות ששייכות לצוות זה
+  //             const teamWork = response.data.filter(element => element.teamId === teamOfUser._id);
+  //             filteredData.push(...teamWork);
+  //           });
   
-            setWork(filteredData);
-          } else {
-            setWork([]);
-          }
-        } else {
-          setWork(response.data);
-        }
-      } catch (error) {
-        console.error('Error fetching teams:', error);
-      }
-    };
+  //           setWork(filteredData);
+  //         } else {
+  //           setWork([]);
+  //         }
+  //       } else {
+  //         setWork(response.data);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching teams:', error);
+  //     }
+  //   };
   
-    fetchData();
-  }, [employee._id, employee.permission, team]);
+  //   fetchData();
+  // }, [employees._id, employees.permission, team]);
   
   
 
@@ -86,7 +89,7 @@ export default function App() {
 
   return (
     <div>
-      <UserContext.Provider value={{ employee, setEmployee, team, setTeam, user, setUser }}>
+      <UserContext.Provider value={{ employees, setEmployees, team, setTeam, user, setUser, oneEmployee, setOneEmployee }}>
         <DataContext.Provider value={{ work, setWork, oneWork, setOneWork }}>
           <Header />
           <Routes>
@@ -95,7 +98,8 @@ export default function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/works' element={<AllWorks />} />
             <Route path='/works/:workId' element={<OneWork />} />
-            <Route path='/employee' element={<Employees />} />
+            <Route path='/employees' element={<Employees />} />
+            <Route path='/employees/:empId' element={<EmployeeDetalse />} />
             <Route path='/newteam' element={<NewTeam />} />
             <Route path='/teamInfo/:teamId' element={<TeamInfo />} />
             <Route path='/addNewWork' element={<AddNewWork />} />

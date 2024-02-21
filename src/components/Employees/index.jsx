@@ -5,10 +5,18 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export default function Employees() {
-  const { employee, setEmployee, team, user } = useContext(UserContext)
+  const { employees, setEmployees, team, user } = useContext(UserContext)
   const nav = useNavigate()
 
+  useEffect(() => {
+    // הבאת המשתמש מה-LocalStorage
+    const storedUser = JSON.parse(localStorage.getItem('user'));
 
+    // אם יש משתמש שמאוחסן, עדכון של הסטייט
+    if (!storedUser) {
+            nav("/login")
+    }
+  }, [])
 
   const handleDelete = async (e) => {
     const wontToDelete = confirm("בטוח שאתה רוצה למחוק?")
@@ -21,18 +29,18 @@ export default function Employees() {
         console.log("error")
       }
     }
-   
+
   }
 
   return (
     <div className={styles.teams}>
       {team.map((t) => (
-        <div onClick={()=>nav(`/teamInfo/${t._id}`)} className={styles.team} style={{ backgroundColor: t.color }} key={t._id}>
+        <div onClick={() => nav(`/teamInfo/${t._id}`)} className={styles.team} style={{ backgroundColor: t.color }} key={t._id}>
           {t.teamName}
-          {user && user.permission === "admin" && (   <button onClick={() => { handleDelete(t) }}>❌</button>)}
+          {user && user.permission === "admin" && (<button onClick={() => { handleDelete(t) }}>❌</button>)}
         </div>
       ))}
-       {user && user.permission === "admin" && (    <div className={styles.team} onClick={() => nav('/newteam')}>יצירת צוות חדש</div>)}
+      {user && user.permission === "admin" && (<div className={styles.team} onClick={() => nav('/newteam')}>יצירת צוות חדש</div>)}
     </div>
   )
-      }
+}

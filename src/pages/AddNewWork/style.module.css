@@ -1,0 +1,50 @@
+
+  
+  /* סגנון לכלל הטופס */
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* סגנונות לטופס של התאריך, שעות, מחיר, וכפתור */
+  form > div {
+    margin-bottom: 10px;
+  }
+  
+  form input,
+  form select {
+    width: 100%;
+    padding: 8px;
+    margin: 4px 0;
+    box-sizing: border-box;
+  }
+  
+  form button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* סגנונות לרשימת משימות */
+  form > div:last-child {
+    margin-top: 20px;
+  }
+  
+  /* סגנונות לקלט של משימה */
+  form input[type="text"] {
+    width: 70%;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  
+  form button[type="button"] {
+    width: 30%;
+    background-color: #008CBA;
+    color: white;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+  }
+  

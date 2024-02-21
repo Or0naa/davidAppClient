@@ -2,94 +2,110 @@
 
 /* Container for the entire page */
 .oneWorkContainer {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-  }
-  
-  /* Styling for each section (client details, times, description, tasks, etc.) */
-  .section {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-  }
-  
-  /* Styling for client details section */
-  .clientDetails {
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-  }
-  
-  /* Styling for times section */
-  .times {
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-  }
-  
-  /* Styling for description section */
-  .description {
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
+  max-width: 60%;
+  min-width: 60%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  direction: rtl;
+}
 
-  }
-  
-  /* Styling for task section */
-  .tasks {
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-  }
-  
-  /* Styling for the "Done" status */
-  .doneStatus {
-    font-weight: bold;
-    color: #1c63ba; /* Green color for "Done" */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-  }
-  
-  /* Styling for additional information section */
-  .additionalInfo {
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-  }
-  
-  /* Styling for the price */
-  .price {
-    color: #ff9800; /* Orange color for price */
-  }
-  
+/* Styling for each section (client details, times, description, tasks, etc.) */
+.section {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+
+}
+.description{
+  width: 100%;
+}
+
+/* Styling for client details section */
+.clientDetails {
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+
+}
+
+/* Styling for times section */
+.times {
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+
+}
+
+/* Styling for description section */
+.description {
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+}
+
+/* Styling for task section */
+.tasks {
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+
+}
+
+/* Styling for the "Done" status */
+.doneStatus {
+  font-weight: bold;
+  color: #1c63ba;
+  /* Green color for "Done" */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+/* Styling for additional information section */
+.additionalInfo {
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+
+}
+
+/* Styling for the price */
+.price {
+  color: #ff9800;
+  /* Orange color for price */
+}

@@ -11,8 +11,18 @@ export default function OneWork() {
   const { oneWork, setOneWork } = useContext(DataContext);
   const { team, user } = useContext(UserContext);
   const [teamId, setTeamId] = useState(oneWork.teamId);
-
+  const [tasks, setTasks] = useState([]);
+  const [taskInput, setTaskInput] = useState('');
   let workId = useParams()
+  const [updateWork, setUpdateWork] = useState(false)
+  const start = new Date(oneWork.beggingTime);
+  const end = new Date(oneWork.endingTime);
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (!storedUser) {
+      nav("/login")
+    }
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,22 +37,15 @@ export default function OneWork() {
     fetchData();
   }, []);
 
-  const [tasks, setTasks] = useState([]);
-  const [taskInput, setTaskInput] = useState('');
-
   const handleAddTask = () => {
     if (taskInput.trim() !== '') {
       setTasks([...tasks, taskInput]);
       setTaskInput('');
     }
   };
-
-  const [updateWork, setUpdateWork] = useState(false)
-
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-   
     if (e.target.price.value === "") {
       e.target.price.value = oneWork.price;
     }
@@ -59,7 +62,7 @@ export default function OneWork() {
       e.target.description.value = oneWork.description;
     }
     const newWork = {
-    
+
       teamId: teamId,
       price: e.target.price.value,
       address: e.target.address.value,
@@ -70,7 +73,8 @@ export default function OneWork() {
     console.log(newWork);
 
     try {
-      const res = await axios.put(`http://localhost:4141/work/${workId.workId}`, newWork);
+      const res = await axios.put(`http://localhost:4141/work/${workId.workId}`, newWork)
+        .then((res) => { setOneWork(res.data) })
       // If needed, you can use the updated work ID
       console.log("Work updated successfully", res);
       setUpdateWork(false);
@@ -87,40 +91,38 @@ export default function OneWork() {
     }
   }
 
+
+
   return (
     <div className={styles.oneWorkContainer}>
       <form onSubmit={(e) => { handleUpdate(e) }}>
         <div className={styles.section}>
           <div className={styles.clientDetails}>
             פרטי הלקוח:
-            <p>{oneWork.clientName}</p>
-            {updateWork ? <input type="text" name="clientName" placeholder='שם' /> : ""}
-            <p>{oneWork.phoneClient}</p>
-            {updateWork ? <input type="text" name="phoneClient" placeholder='טלפון' /> : ""}
-            <p>{oneWork.address}</p>
-            {updateWork ? <input type="text" name="address" placeholder='כתובת' /> : ""}
+
+            {updateWork ? <input type="text" name="clientName" placeholder={oneWork.clientName} /> : <p>{oneWork.clientName}</p>}
+            {updateWork ? <input type="text" name="phoneClient" placeholder={oneWork.phoneClient} /> : <p>{oneWork.phoneClient}</p>}
+            {updateWork ? <input type="text" name="address" placeholder={oneWork.address} /> : <p>{oneWork.address}</p>}
 
           </div>
         </div>
         <div className={styles.section}>
           <div className={styles.times}>
             זמנים:
+            {/* {updateWork ? <input type="date" name="workDate" /> : <p>{start.toLocaleDateString()}</p>}
+            {updateWork ? <input type="time" name='beggingTime' /> : ""}
+            {updateWork ? <input type="time" name='endingTime' /> : ""} */}
 
-            <p>{oneWork.beggingTime}</p>
-            {/* {updateWork ? <input type="text" name="beggingTime" /> : ""} */}
-            <p>{oneWork.endingTime}</p>
-            {/* {updateWork ? <input type="text" name="endingTime" /> : ""} */}
+            {!updateWork ? <p>{start.toLocaleTimeString().slice(0, -3)} - {end.toLocaleTimeString().slice(0, -3)}</p> : ""}
 
           </div>
         </div>
         <div className={styles.section}>
           <div className={styles.description}>
             תיאור:
-            <p>{oneWork.description}</p>
-            {updateWork ? <input type="text" name="description" placeholder='תיאור' /> : ""}
-
+            {updateWork ? <input style={{ width: "100%" }} type="text" name="description" placeholder={oneWork.description} /> : <p style={{ width: "100%", textDecorationLine:"underline"}}>{oneWork.description}</p>}
             <div className={styles.tasks}>
-              <Task />
+              <Task updateWork={updateWork} />
             </div>
           </div>
         </div>
@@ -130,29 +132,24 @@ export default function OneWork() {
           ) : (
             <p className={styles.doneStatus}>עדיין לא בוצעה</p>
           )}
-          <div className={styles.additionalInfo}>
-            לדוד בלבד:
-            <p className={styles.price}>price: {oneWork.price}</p>
-            {updateWork ? <input type="number" name="price" placeholder='מחיר' /> : ""}
-            צוות:
-            <p>{team.find(t => t._id === oneWork.teamId)?.teamName}</p>
-            {updateWork ?
-              <select name="team" onChange={(e) => setTeamId(e.target.value)}>
-                <option value="">--בחר--</option>
-                {team.map(t => (
-                  <option key={t._id} value={t._id}>{t.teamName}</option>
-                ))}
-              </select> : ""}
+          {user && user.permission === "admin" && (
+            <div className={styles.additionalInfo}>
+              {updateWork ? <input type="number" name="price" placeholder='מחיר' /> : <p className={styles.price}>price: {oneWork.price}</p>}
+              צוות:
+              <p>{team.find(t => t._id === oneWork.teamId)?.teamName}</p>
+              
+              {updateWork ?
+                <select name="team" onChange={(e) => setTeamId(e.target.value)}>
+                  <option value="">--בחר--</option>
+                  {team.map(t => (
+                    <option key={t._id} value={t._id}>{t.teamName}</option>
+                  ))}
+                </select> : ""}
 
-          </div>
+            </div>)}
         </div>
-
-        {updateWork ? <button type="submit">שינוי</button> : ""}
-
-      </form>
-      {updateWork?
-            <form>
-            <div>משימות:</div>
+        {updateWork ?
+          <form>
             <input
               type="text"
               placeholder='הוסף משימה'
@@ -160,13 +157,17 @@ export default function OneWork() {
               onChange={(e) => setTaskInput(e.target.value)}
             />
             <button type="button" onClick={handleAddTask}>הוסף</button>
-    
+
             {tasks.map((task, index) => (
-      <div key={`task_${index}`}>{task}</div>
-    ))}
-    
-        </form> : ""}
-        {user && user.permission === "admin" && (    <button onClick={() => setUpdateWork(!updateWork)}>עריכה</button>)}
+              <div key={`task_${index}`}>{task}</div>
+            ))}
+
+          </form> : ""}
+        {updateWork ? <button type="submit">שינוי</button> : ""}
+
+      </form>
+
+      {user && user.permission === "admin" && !updateWork && (<button onClick={() => setUpdateWork(!updateWork)}>עריכה</button>)}
     </div>
   )
 }

@@ -3,9 +3,11 @@ import axios from 'axios';
 import styles from './style.module.css';
 import UserContext from '../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import DataContext from '../../context/DataContext';
 
 export default function AddNewWork() {
   const { team } = useContext(UserContext);
+  const { work, setWork } = useContext(DataContext);
   const [teamId, setTeamId] = useState("");
   const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState('');
@@ -22,9 +24,10 @@ export default function AddNewWork() {
     e.preventDefault();
 
     const newWork = {
-      workDate: e.target.workDate.value,
-      beggingTime: e.target.beggingTime.value,
-      endingTime: e.target.endingTime.value,
+      // 2024-02-18T07:00:00.000Z
+
+      beggingTime: `${e.target.workDate.value}T${e.target.beggingTime.value}:00.000Z`,
+      endingTime: `${e.target.workDate.value}T${e.target.endingTime.value}:00.000Z`,
       teamId: teamId,
       price: e.target.price.value,
       address: e.target.address.value,
@@ -32,6 +35,8 @@ export default function AddNewWork() {
       clientName: e.target.clientName.value,
       description: e.target.description.value,
     };
+
+    console.log("newWork", newWork);
 
     try {
       const res = await axios.post("http://localhost:4141/work/create", newWork);
@@ -46,6 +51,8 @@ export default function AddNewWork() {
       }
       
       console.log(res);
+      setWork([...work, res.data]);
+      
       nav('/works')
     } catch (error) {
       console.log("error:", error);
@@ -81,10 +88,7 @@ export default function AddNewWork() {
         <input type="text" name='address' />
         <div>תיאור העבודה:</div>
         <input type="text" name='description' />
-        <button type="submit">צור</button>
-      </form>
-
-      <form>
+        <form>
         <div>משימות:</div>
         <input
           type="text"
@@ -99,6 +103,10 @@ export default function AddNewWork() {
 ))}
 
       </form>
+        <button type="submit">צור</button>
+      </form>
+
+
     </div>
   );
 }

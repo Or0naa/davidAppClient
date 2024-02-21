@@ -1,7 +1,11 @@
-.task{
+.tasksContainer {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    gap: 10px;
+  }
+  
+  .task {
+    display: flex;
     align-items: center;
-    align-content: center;
-}
+    gap: 10px;
+  }

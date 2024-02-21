@@ -13,24 +13,77 @@ import DataContext from '../../context/DataContext';
 export default function DemoApp() {
   const [weekendsVisible, setWeekendsVisible] = useState(true);
   const [currentEvents, setCurrentEvents] = useState([]);
-
-  const { team, user } = useContext(UserContext);
+  const { team, user, oneEmployee } = useContext(UserContext);
   const [teamId, setTeamId] = useState("")
   const { work, setWork } = useContext(DataContext)
   const nav = useNavigate()
+  // const [initialEvents, setInitialEvents] = useState([])
+  const [initialEvents, setInitialEvents] = useState([])
 
   let eventGuid = 0
 
-  const initialEvents = work.map(w => {
-    let color = team.find(t => t._id === w.teamId)?.color || "#ffffff"
-    return {
-      id: w._id,
-      title: w.description,
-      start: w.beggingTime,
-      end: w.endingTime, // אם יש שדה תאריך סיום
-      color: color
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (!storedUser) {
+      nav("/login")
     }
-  })
+  }, [])
+
+  // console.log("user: ", user);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user && user.permission === "admin") {
+        try {
+          const response = await axios.get('http://localhost:4141/work');
+          if (response.data && response.data.length > 0) {
+            console.log("work: ", response.data);
+            setWork(response.data);
+            setInitialEvents(response.data.map(w => ({
+              id: w._id,
+              title: w.description,
+              start: w.beggingTime,
+              end: w.endingTime,
+              color: team.find(t => t._id === w.teamId)?.color || "#ffffff"
+            })));
+          }
+        } catch (error) {
+          console.error('Error fetching teams:', error);
+        }
+      }
+  
+      if (user && user.permission === "employee") {
+        try {
+          const response = await axios.get(`http://localhost:4141/employee/works/${user._id}`);
+          if (response.data && response.data.length > 0) {
+            setWork(response.data);
+            setInitialEvents(response.data.map(w => ({
+              id: w._id,
+              title: w.description,
+              start: w.beggingTime,
+              end: w.endingTime,
+              color: team.find(t => t._id === w.teamId)?.color || "#ffffff"
+            })));
+          }
+        } catch (error) {
+          console.error('Error fetching teams:', error);
+        }
+      }
+    };
+  
+    fetchData();
+  }, [user, oneEmployee, team]);
+  
+  // const initialEvents = work.map(w => {
+  //   let color = team.find(t => t._id === w.teamId)?.color || "#ffffff"
+  //   return {
+  //     id: w._id,
+  //     title: w.description,
+  //     start: w.beggingTime,
+  //     end: w.endingTime, // אם יש שדה תאריך סיום
+  //     color: color
+  //   }
+  // })
 
 
   console.log("events", initialEvents)
@@ -73,8 +126,8 @@ export default function DemoApp() {
 
         }
 
-        const res = await axios.post("http://localhost:4141/work/create", newWork);
-
+        const res = await axios.post("http://localhost:4141/work/create", newWork)
+          .then((res) => { setWork(work.concat(res.data)) })
 
       }
       catch {
@@ -86,7 +139,7 @@ export default function DemoApp() {
 
 
   const handleEventClick = (clickInfo) => {
-    console.log(clickInfo.event.id)
+    // console.log(clickInfo.event.id)
     nav("/works/" + clickInfo.event.id)
     // if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
     //   clickInfo.event.remove();
@@ -107,13 +160,13 @@ export default function DemoApp() {
       </div>
     </>
   );
-  
+
 
   const today = new Date();
 
   const renderSidebarEvent = (event) => (
     <li key={event.id}>
-      {formatDate(new Date(event.start), { hour: 'numeric', minute: '2-digit', hour12: false })}
+      {/* {formatDate(new Date(event.start), { hour: 'numeric', minute: '2-digit', hour12: false })} */}
       <i>{event.title}</i>
       {work.map(w => (
         <div key={w._id}>
@@ -134,7 +187,7 @@ export default function DemoApp() {
   return (
     <div className='demo-app'>
       <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "row" }}>
-      {user && user.permission === "admin" && (   <form>
+        {user && user.permission === "admin" && (<form>
           <h3>בחר צוות כדי להוסיף לו עבודה:</h3>
 
           <select name="team" onChange={(e) => setTeamId(e.target.value)}>
@@ -151,7 +204,7 @@ export default function DemoApp() {
           headerToolbar={{
             left: 'prev,next today',
             // center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+            // right: 'dayGridMonth,timeGridWeek,timeGridDay',
           }}
           initialView='timeGridWeek'
           // now={new Date("2024-02-20T09:44:00.000Z")}
@@ -163,8 +216,10 @@ export default function DemoApp() {
           selectMirror={true}
           dayMaxEvents={true}
           weekends={weekendsVisible}
-          initialEvents={initialEvents} // alternatively, use the `events` setting to fetch from a feed
-          slotMinTime="06:00"
+          // initialEvents={initialEvents} // alternatively, use the `events` setting to fetch from a feed
+          events={initialEvents}
+
+          slotMinTime="08:00"
           slotMaxTime="24:00"
           height={'90vh'}
           select={handleDateSelect}
@@ -187,12 +242,17 @@ export default function DemoApp() {
     };
 
     // console.log("newEvent", newEvent)
+    if (user.permission !== "admin") {
+      return;
+    }
+    else {
 
-    try {
-      const res = await axios.put(`http://localhost:4141/work/${event.event.id}`, newEvent);
-      console.log("Work updated successfully", res);
-    } catch (error) {
-      console.error("Error updating work:", error);
+      try {
+        const res = await axios.put(`http://localhost:4141/work/${event.event.id}`, newEvent);
+        console.log("Work updated successfully", res);
+      } catch (error) {
+        console.error("Error updating work:", error);
+      }
     }
 
   }
@@ -239,7 +299,7 @@ export default function DemoApp() {
 
     return (
       <div>
-        <h2>עבודות שעדיין לא הושלמו</h2>
+        {postponedEvents.length > 0 ? <h2 style={{ backgroundColor: "red", borderRadius: "10%", padding: "1%", display: "flex", justifyContent: "center" }} >עבודות שעדיין לא הושלמו</h2> : ""}
         <ul>
           {postponedEvents.map(renderSidebarEvent)}
         </ul>

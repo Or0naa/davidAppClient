@@ -1,12 +1,24 @@
 /* style.module.css */
 
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 10%;
+}
+
 .loginContainer {
     max-width: 400px;
+    min-width: 50%;
     margin: 0 auto;
     padding: 20px;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    direction: rtl;
+    text-align: center;
   }
   
   .formInput {
@@ -15,6 +27,7 @@
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    direction: rtl;
   }
   
   .formButton {

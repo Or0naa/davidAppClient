@@ -5,7 +5,7 @@ import UserContext from '../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function NewTeam() {
-  const { employee, setEmployee } = useContext(UserContext);
+  const { employees, setEmployees } = useContext(UserContext);
   const [empList, setEmpList] = useState([]);
   const nav = useNavigate();
 
@@ -13,7 +13,7 @@ export default function NewTeam() {
     const empData = async () => {
       try {
         const allEmp = await axios.get("http://localhost:4141/employee");
-        setEmployee(allEmp.data);
+        setEmployees(allEmp.data);
       } catch (error) {
         console.log("error:", error);
       }
@@ -35,7 +35,7 @@ export default function NewTeam() {
     try {
       const res = await axios.post("http://localhost:4141/team/create", teamData);
       console.log(res);
-      nav("/employee");
+      nav("/employees");
     } catch (error) {
       console.log("error:", error);
     }
@@ -44,7 +44,7 @@ export default function NewTeam() {
   return (
     <div className={styles.container}>
     <div className={styles.employeeList}>
-      {employee.map((emp) => (
+      {employees.map((emp) => (
         <div key={emp._id} className={styles.employeeItem}>
           {emp.eName}
           <button onClick={() => addToTeam(emp)} className={styles.addButton}>+</button>

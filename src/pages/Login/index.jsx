@@ -6,7 +6,7 @@ import axios from 'axios';
 
 export default function Login() {
   const nav = useNavigate();
-  const { setEmployee, user, setUser } = useContext(UserContext);
+  const { setEmployees, user, setUser } = useContext(UserContext);
 
   const handleCreateEmployee = async (e) => {
     e.preventDefault();
@@ -52,27 +52,31 @@ export default function Login() {
   };
 
   return (
-    <div className={styles.loginContainer}>
-      {user ? <div>
-        <p>{`שלום ${user.eName}`}</p>
-        <button className={styles.logoutButton} onClick={handleLogout}>התנתקות</button>
-        </div> 
-    
-      :
-        <form onSubmit={(e)=>{handleLogin(e)}}>
-          <input  className={styles.formInput} type="phon" name="tel" placeholder="מספר טלפון" />
-          <input  className={styles.formInput} type="email" name="email" placeholder="email" />
-          <button className={styles.formButton} type="submit">התחברות</button>
-        </form>}
-      {user && user.permission === "admin" && (       <form onSubmit={handleCreateEmployee}>
-        <h3>עובד חדש:</h3>
+    <div className={styles.container}>
+      <div className={styles.loginContainer}>
+        {user ? <div>
+          <p>{`שלום ${user.eName}`}</p>
+          <button className={styles.logoutButton} onClick={handleLogout}>התנתקות</button>
+        </div>
 
-        <input className={styles.formInput} type="text" name="eName" placeholder="שם העובד" />
-        <input className={styles.formInput} type="tel" name="phon" placeholder="מספר טלפון" />
-        <input className={styles.formInput} type="email" name="email" placeholder="email" />
-        {/* <input className={styles.formInput} type="password" name="password" placeholder="סיסמה" /> */}
-        <button className={styles.formButton} type="submit">שלח</button>
-      </form>)}
-    </div>
+          :
+          <form onSubmit={(e) => { handleLogin(e) }}>
+            <input className={styles.formInput} type="phon" name="tel" placeholder="מספר טלפון" />
+            <input className={styles.formInput} type="email" name="email" placeholder="email" />
+            <button className={styles.formButton} type="submit">התחברות</button>
+          </form>
+        }</div>
+      <div className={styles.loginContainer}>
+
+        {user && user.permission === "admin" && (<form onSubmit={handleCreateEmployee}>
+
+          <h3>יצירת עובד חדש:</h3>
+          <input className={styles.formInput} style={{width:"100%"}} type="text" name="eName" placeholder="שם העובד" />
+          <input className={styles.formInput} type="tel" name="phon" placeholder="מספר טלפון" />
+          <input className={styles.formInput} type="email" name="email" placeholder="email" />
+          {/* <input className={styles.formInput} type="password" name="password" placeholder="סיסמה" /> */}
+          <button className={styles.formButton} type="submit">שלח</button>
+        </form>)}
+      </div></div>
   );
 }
