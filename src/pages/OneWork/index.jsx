@@ -98,12 +98,13 @@ export default function OneWork() {
       <form onSubmit={(e) => { handleUpdate(e) }}>
         <div className={styles.section}>
           <div className={styles.clientDetails}>
-            פרטי הלקוח:
-
-            {updateWork ? <input type="text" name="clientName" placeholder={oneWork.clientName} /> : <p>{oneWork.clientName}</p>}
-            {updateWork ? <input type="text" name="phoneClient" placeholder={oneWork.phoneClient} /> : <p>{oneWork.phoneClient}</p>}
-            {updateWork ? <input type="text" name="address" placeholder={oneWork.address} /> : <p>{oneWork.address}</p>}
-
+          פרטי הלקוח:
+            <p>{oneWork.clientName}</p>
+            {updateWork ? <input type="text" name="clientName" placeholder='שם' /> : ""}
+            <p>{oneWork.phoneClient}</p>
+            {updateWork ? <input type="text" name="phoneClient" placeholder='טלפון' /> : ""}
+            <p>{oneWork.address}</p>
+            {updateWork ? <input type="text" name="address" placeholder='כתובת' /> : ""}
           </div>
         </div>
         <div className={styles.section}>
@@ -120,13 +121,14 @@ export default function OneWork() {
         <div className={styles.section}>
           <div className={styles.description}>
             תיאור:
-            {updateWork ? <input style={{ width: "100%" }} type="text" name="description" placeholder={oneWork.description} /> : <p style={{ width: "100%", textDecorationLine:"underline"}}>{oneWork.description}</p>}
-            <div className={styles.tasks}>
+            <p>{oneWork.description}</p>
+            {updateWork ? <input type="text" name="description" placeholder='תיאור' /> : ""}            <div className={styles.tasks}>
               <Task updateWork={updateWork} />
             </div>
           </div>
         </div>
         <div className={styles.section}>
+          ביצוע:
           {oneWork.isDone ? (
             <p className={styles.doneStatus}>בוצעה</p>
           ) : (
@@ -134,7 +136,7 @@ export default function OneWork() {
           )}
           {user && user.permission === "admin" && (
             <div className={styles.additionalInfo}>
-              {updateWork ? <input type="number" name="price" placeholder='מחיר' /> : <p className={styles.price}>price: {oneWork.price}</p>}
+              {updateWork ? <input type="number" name="price" placeholder='מחיר' /> : <p className={styles.price}>מחיר: {oneWork.price}</p>}
               צוות:
               <p>{team.find(t => t._id === oneWork.teamId)?.teamName}</p>
 
