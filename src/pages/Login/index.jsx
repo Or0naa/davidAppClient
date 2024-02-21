@@ -74,7 +74,7 @@ export default function Login() {
           <input className={styles.formInput} style={{width:"100%"}} type="text" name="eName" placeholder="שם העובד" />
           <input className={styles.formInput} type="tel" name="phon" placeholder="מספר טלפון" />
           <input className={styles.formInput} type="email" name="email" placeholder="email" />
-          {/* <input className={styles.formInput} type="password" name="password" placeholder="סיסמה" /> */}
+          <input className={styles.formInput} type="password" name="password" placeholder="סיסמה" />
           <button className={styles.formButton} type="submit">שלח</button>
         </form>)}
       </div></div>
