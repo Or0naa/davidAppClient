@@ -13,7 +13,7 @@ export default function Task({ updateWork }) {
     const fetchData = async () => {
       try {
         if (oneWork._id) {
-          const response = await axios.get(`http://localhost:4141/task/byWork/${oneWork._id}`);
+          const response = await axios.get(`https://davidapp.onrender.com/task/byWork/${oneWork._id}`);
           setTasks(response.data);
         }
       } catch (error) {
@@ -29,10 +29,10 @@ export default function Task({ updateWork }) {
     const updateDone = !e.isDone;
 
     try {
-      await axios.put(`http://localhost:4141/task/${id}`, { isDone: updateDone });
+      await axios.put(`https://davidapp.onrender.com/task/${id}`, { isDone: updateDone });
 
       // Fetch the updated tasks
-      await axios.get(`http://localhost:4141/task/byWork/${oneWork._id}`)
+      await axios.get(`https://davidapp.onrender.com/task/byWork/${oneWork._id}`)
         .then((response) => {
           setTasks(response.data);
 
@@ -40,7 +40,7 @@ export default function Task({ updateWork }) {
 
           try {
             // If all tasks are done, update the work status to "completed"
-            axios.put(`http://localhost:4141/work/${oneWork._id}`, { isDone: allTasksDone });
+            axios.put(`https://davidapp.onrender.com/work/${oneWork._id}`, { isDone: allTasksDone });
             setOneWork((prevWork) => ({ ...prevWork, isDone: allTasksDone }));
           } catch (error) {
             console.log(error);
@@ -54,8 +54,8 @@ export default function Task({ updateWork }) {
   const handleDeleteTask = async (e) => {
     const id = e._id;
     try {
-      await axios.delete(`http://localhost:4141/task/${id}`);
-      await axios.get(`http://localhost:4141/task/byWork/${oneWork._id}`)
+      await axios.delete(`https://davidapp.onrender.com/task/${id}`);
+      await axios.get(`https://davidapp.onrender.com/task/byWork/${oneWork._id}`)
         .then((response) => {
           setTasks(response.data);
         })
