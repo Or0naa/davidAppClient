@@ -126,7 +126,7 @@ export default function OneWork() {
             {/* <a href={`https://www.google.com/maps?q=${encodeURIComponent(oneWork.address)}`} target="_blank">{oneWork.address}</a> */}
             {/* <a href={`https://www.waze.com/ul?q=${encodeURIComponent(oneWork.address)}`} target="_blank">{oneWork.address}</a> */}
             {/* <a href="https://waze.com/ul?q=${encodeURIComponent(oneWork.address)}&navigate=yes" target="_blank">{oneWork.address}</a> */}
-            <a href="waze://?q=${encodeURIComponent(oneWork.address)}" target="_blank">
+            <a href={`waze://?q=${encodeURIComponent(oneWork.address)}`} target="_blank">
               {oneWork.address}
             </a>
             {updateWork ? <input type="text" name="address" placeholder='כתובת' /> : ""}
