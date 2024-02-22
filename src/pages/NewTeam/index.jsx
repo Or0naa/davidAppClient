@@ -3,16 +3,20 @@ import styles from './style.module.css';
 import axios from 'axios';
 import UserContext from '../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import DataContext from '../../context/DataContext';
 
 export default function NewTeam() {
   const { employees, setEmployees } = useContext(UserContext);
   const [empList, setEmpList] = useState([]);
   const nav = useNavigate();
+  const { serverUrl } = useContext(DataContext);
+
 
   useEffect(() => {
     const empData = async () => {
       try {
-        const allEmp = await axios.get("https://davidapp.onrender.com/employee");
+        const allEmp = await axios.get(`${serverUrl}/employee`);
+        console.log("allEmp:", allEmp.data);
         setEmployees(allEmp.data);
       } catch (error) {
         console.log("error:", error);
@@ -33,7 +37,7 @@ export default function NewTeam() {
       color: e.target.color.value,
     };
     try {
-      const res = await axios.post("https://davidapp.onrender.com/team/create", teamData);
+      const res = await axios.post(`${serverUrl}/team/create`, teamData);
       console.log(res);
       nav("/employees");
     } catch (error) {

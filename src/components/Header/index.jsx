@@ -5,6 +5,7 @@ import UserContext from '../../context/UserContext';
 
 export default function Header() {
   const { user } = useContext(UserContext);
+  
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));

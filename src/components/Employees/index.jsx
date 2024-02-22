@@ -3,9 +3,12 @@ import styles from './style.module.css'
 import UserContext from '../../context/UserContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import DataContext from '../../context/DataContext';
 
 export default function Employees() {
   const { employees, setEmployees, team, user } = useContext(UserContext)
+  const { serverUrl } = useContext(DataContext);
+
   const nav = useNavigate()
 
   useEffect(() => {
@@ -22,7 +25,7 @@ export default function Employees() {
     const wontToDelete = confirm("בטוח שאתה רוצה למחוק?")
     if (wontToDelete) {
       try {
-        await axios.delete(`https://davidapp.onrender.com/team/${e._id}`)
+        await axios.delete(`${serverUrl}/team/${e._id}`)
           .then(console.log("delete done"))
       }
       catch {

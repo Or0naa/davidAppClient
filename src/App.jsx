@@ -15,6 +15,8 @@ import AddNewWork from './pages/AddNewWork'
 import EmployeeDetalse from './pages/EmployeeDetalse'
 export default function App() {
 
+  const serverUrl = 'http://localhost:4141'
+
   const [employees, setEmployees] = useState([])
   const [oneEmployee, setOneEmployee] = useState({})
 
@@ -36,7 +38,7 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://davidapp.onrender.com/team');
+        const response = await axios.get(`${serverUrl}/team`);
         setTeam(response.data);
         console.log("team: ", response.data);
       } catch (error) {
@@ -51,7 +53,7 @@ export default function App() {
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
-  //       const response = await axios.get('https://davidapp.onrender.com/work');
+  //       const response = await axios.get(`${serverUrl}/work`);
   
   //       if (user.permission !== 'admin') {
   //         // יצירת מערך עם כל הצוותים שבהם נמצא העובד
@@ -91,7 +93,7 @@ export default function App() {
   return (
     <div>
       <UserContext.Provider value={{ employees, setEmployees, team, setTeam, user, setUser, oneEmployee, setOneEmployee }}>
-        <DataContext.Provider value={{ work, setWork, oneWork, setOneWork }}>
+        <DataContext.Provider value={{ work, setWork, oneWork, setOneWork, serverUrl }}>
           <Header />
           <Routes>
             <Route path='/' element={<Calendar />} />

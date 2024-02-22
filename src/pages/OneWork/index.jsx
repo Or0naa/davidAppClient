@@ -8,7 +8,7 @@ import UserContext from '../../context/UserContext';
 
 export default function OneWork() {
 
-  const { oneWork, setOneWork } = useContext(DataContext);
+  const { oneWork, setOneWork, serverUrl } = useContext(DataContext);
   const { team, user } = useContext(UserContext);
   const [teamId, setTeamId] = useState(oneWork.teamId);
   const [tasks, setTasks] = useState([]);
@@ -27,7 +27,7 @@ export default function OneWork() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://davidapp.onrender.com/work/${workId.workId}`);
+        const response = await axios.get(`${serverUrl}/work/${workId.workId}`);
         setOneWork(response.data);
         setTeamId(response.data.teamId);
       } catch (error) {
@@ -74,7 +74,7 @@ export default function OneWork() {
     console.log(newWork);
 
     try {
-      const res = await axios.put(`https://davidapp.onrender.com/work/${workId.workId}`, newWork)
+      const res = await axios.put(`${serverUrl}/work/${workId.workId}`, newWork)
         .then((res) => { setOneWork(res.data) })
       // If needed, you can use the updated work ID
       console.log("Work updated successfully", res);
@@ -88,7 +88,7 @@ export default function OneWork() {
         workId: workId.workId,
         taskName: i
       };
-      await axios.post("https://davidapp.onrender.com/task/create", task);
+      await axios.post(`${serverUrl}/task/create`, task);
     }
   }
 

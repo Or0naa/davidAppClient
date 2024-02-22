@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import UserContext from '../../context/UserContext';
 
 export default function AllWorks() {
-  const { work, setWork, oneWork, setOneWork } = useContext(DataContext);
+  const { work, setWork, oneWork, setOneWork, serverUrl } = useContext(DataContext);
   const nav = useNavigate();
   const { team, user } = useContext(UserContext);
 
@@ -29,7 +29,7 @@ export default function AllWorks() {
 
   const handleDeleteWork = async (w) => {
     try {
-      const res = await axios.delete("https://davidapp.onrender.com/work/" + w._id);
+      const res = await axios.delete(`${serverUrl}/work/` + w._id);
       console.log(res);
       setWork(work.filter((workItem) => workItem._id !== w._id));
       nav("/works");

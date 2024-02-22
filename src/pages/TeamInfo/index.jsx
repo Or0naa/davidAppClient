@@ -1,10 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './style.module.css'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { h } from '@fullcalendar/core/preact'
+import DataContext from '../../context/DataContext'
 
 export default function TeamInfo() {
+  const { serverUrl } = useContext(DataContext);
+
   let teamId = useParams()
   // console.log(teamId)
 
@@ -14,7 +17,7 @@ export default function TeamInfo() {
   useEffect(() => {
     const teamData = async () => {
       try {
-        const res = await axios.get(`https://davidapp.onrender.com/team/${teamId.teamId}`)
+        const res = await axios.get(`${serverUrl}/team/${teamId.teamId}`)
         setThisTeam(res.data)
       }
       catch {
