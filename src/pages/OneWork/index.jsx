@@ -122,7 +122,9 @@ export default function OneWork() {
             {/* <p>{oneWork.phoneClient}</p> */}
             <a href={`tel:${oneWork.phoneClient}`}>{oneWork.phoneClient}</a>
             {updateWork ? <input type="text" name="phoneClient" placeholder='טלפון' /> : ""}
-            <p>{oneWork.address}</p>
+            {/* <p>{oneWork.address}</p> */}
+            <a href={`https://www.google.com/maps?q=${encodeURIComponent(oneWork.address)}`} target="_blank">{oneWork.address}</a>
+
             {updateWork ? <input type="text" name="address" placeholder='כתובת' /> : ""}
           </div>
         </div>
