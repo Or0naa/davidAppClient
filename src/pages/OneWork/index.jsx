@@ -79,7 +79,6 @@ export default function OneWork() {
 
 
     const newWork = {
-
       beggingTime: `${e.target.workDate.value}T${e.target.beggingTime.value}:00.000Z`,
       endingTime: `${e.target.workDate.value}T${e.target.endingTime.value}:00.000Z`,
       teamId: teamId,
@@ -120,7 +119,8 @@ export default function OneWork() {
             פרטי הלקוח:
             <p>{oneWork.clientName}</p>
             {updateWork ? <input type="text" name="clientName" placeholder='שם' /> : ""}
-            <p>{oneWork.phoneClient}</p>
+            {/* <p>{oneWork.phoneClient}</p> */}
+            <a href={`tel:${oneWork.phoneClient}`}>{oneWork.phoneClient}</a>
             {updateWork ? <input type="text" name="phoneClient" placeholder='טלפון' /> : ""}
             <p>{oneWork.address}</p>
             {updateWork ? <input type="text" name="address" placeholder='כתובת' /> : ""}
