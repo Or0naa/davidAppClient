@@ -38,6 +38,7 @@ export default function App() {
       try {
         const response = await axios.get('https://davidapp.onrender.com/team');
         setTeam(response.data);
+        console.log("team: ", response.data);
       } catch (error) {
         console.error('Error fetching teams:', error);
       }

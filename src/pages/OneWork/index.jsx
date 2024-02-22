@@ -29,6 +29,7 @@ export default function OneWork() {
       try {
         const response = await axios.get(`https://davidapp.onrender.com/work/${workId.workId}`);
         setOneWork(response.data);
+        setTeamId(response.data.teamId);
       } catch (error) {
         console.error('Error fetching teams:', error);
       }
@@ -136,13 +137,13 @@ export default function OneWork() {
           )}
           {user && user.permission === "admin" && (
             <div className={styles.additionalInfo}>
-              {updateWork ? <input type="number" name="price" placeholder='מחיר' /> : <p className={styles.price}>מחיר: {oneWork.price}</p>}
+              {updateWork ? <input type="number" name="price" placeholder='מחיר' /> : <p className={styles.price}>: {oneWork.price}</p>}
               צוות:
-              <p>{team.find(t => t._id === oneWork.teamId)?.teamName}</p>
+              <p>{teamId.teamName}</p>
 
               {updateWork ?
                 <select name="team" onChange={(e) => setTeamId(e.target.value)}>
-                  <option value="">--בחר--</option>
+                  <option value={teamId}>{teamId.teamName}</option>
                   {team.map(t => (
                     <option key={t._id} value={t._id}>{t.teamName}</option>
                   ))}
