@@ -16,7 +16,7 @@ import EmployeeDetalse from './pages/EmployeeDetalse'
 export default function App() {
 
   const serverUrl = "https://davidapp.onrender.com"
-  //  'http://localhost:4141'
+    // const serverUrl = 'http://localhost:4141'
 
   const [employees, setEmployees] = useState([])
   const [oneEmployee, setOneEmployee] = useState({})

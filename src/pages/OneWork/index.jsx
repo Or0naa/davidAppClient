@@ -10,7 +10,7 @@ export default function OneWork() {
 
   const { oneWork, setOneWork, serverUrl } = useContext(DataContext);
   const { team, user } = useContext(UserContext);
-  const [teamId, setTeamId] = useState(oneWork.teamId);
+  const [teamId, setTeamId] = useState("");
   const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState('');
   let workId = useParams()

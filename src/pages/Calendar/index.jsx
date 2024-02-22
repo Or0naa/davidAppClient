@@ -15,7 +15,7 @@ export default function DemoApp() {
   const [currentEvents, setCurrentEvents] = useState([]);
   const { team, user, oneEmployee } = useContext(UserContext);
   const [teamId, setTeamId] = useState("")
-  const { work, setWork, serverUrl } = useContext(DataContext)
+  const { work, setWork, serverUrl, setOneWork } = useContext(DataContext)
 
   const nav = useNavigate()
   // const [initialEvents, setInitialEvents] = useState([])
@@ -31,7 +31,7 @@ export default function DemoApp() {
   }, [])
 
   // console.log("user: ", user);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       if (user && user.permission === "admin") {
@@ -52,7 +52,7 @@ export default function DemoApp() {
           console.error('Error fetching teams:', error);
         }
       }
-  
+
       if (user && user.permission === "employee") {
         try {
           const response = await axios.get(`${serverUrl}/employee/works/${user._id}`);
@@ -71,10 +71,10 @@ export default function DemoApp() {
         }
       }
     };
-  
+
     fetchData();
   }, [user, oneEmployee, team]);
-  
+
   // const initialEvents = work.map(w => {
   //   let color = team.find(t => t._id === w.teamId)?.color || "#ffffff"
   //   return {
@@ -114,34 +114,36 @@ export default function DemoApp() {
         allDay: selectInfo.allDay,
         color: team.find(t => t._id === teamId)?.color || "#ffffff", // אם הצבע לא נמצא, יש להשתמש בצבע ברירת המחדל
       };
-
-
       calendarApi.addEvent(newEvent);
-
+      const newWork = {
+        beggingTime: newEvent.start,
+        endingTime: newEvent.end,
+        teamId: teamId,
+      }
       try {
-        const newWork = {
-          workDate: newEvent.day,
-          beggingTime: newEvent.start,
-          endingTime: newEvent.end,
-          teamId: teamId,
-
-        }
-
         const res = await axios.post(`${serverUrl}/work/create`, newWork)
-          .then((res) => { setWork(work.concat(res.data)) })
+        newEvent.id = res.data._id
+        setWork([...work, newEvent])
+        setOneWork(newEvent)
+        console.log("Work created successfully", res);
+        console.log("newEvent", newEvent)
+      }
+      catch (error) {
+        console.error("Error creating work:", error);
+      }
 
-      }
-      catch {
-        console.log("error")
-      }
     }
   };
 
 
 
   const handleEventClick = (clickInfo) => {
-    // console.log(clickInfo.event.id)
-    nav("/works/" + clickInfo.event.id)
+    // console.log("clickInfo", clickInfo)
+    
+    console.log(clickInfo.event.id)
+    setOneWork(clickInfo.event)
+    const goto = clickInfo.event.id
+    nav("/works/" + goto)
     // if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
     //   clickInfo.event.remove();
     // }
