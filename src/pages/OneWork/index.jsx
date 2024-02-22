@@ -62,8 +62,20 @@ export default function OneWork() {
     if (e.target.description.value === "") {
       e.target.description.value = oneWork.description;
     }
+    if (e.target.beggingTime.value === "") {
+      e.target.beggingTime.value = oneWork.beggingTime;
+    }
+    if (e.target.endingTime.value === "") {
+      e.target.endingTime.value = oneWork.endingTime;
+    }
+    if (e.target.workDate.value === "") {
+      e.target.workDate.value = oneWork.workDate;
+    }
+
     const newWork = {
 
+      beggingTime: `${e.target.workDate.value}T${e.target.beggingTime.value}:00.000Z`,
+      endingTime: `${e.target.workDate.value}T${e.target.endingTime.value}:00.000Z`,
       teamId: teamId,
       price: e.target.price.value,
       address: e.target.address.value,
@@ -99,7 +111,7 @@ export default function OneWork() {
       <form onSubmit={(e) => { handleUpdate(e) }}>
         <div className={styles.section}>
           <div className={styles.clientDetails}>
-          פרטי הלקוח:
+            פרטי הלקוח:
             <p>{oneWork.clientName}</p>
             {updateWork ? <input type="text" name="clientName" placeholder='שם' /> : ""}
             <p>{oneWork.phoneClient}</p>
@@ -111,11 +123,17 @@ export default function OneWork() {
         <div className={styles.section}>
           <div className={styles.times}>
             זמנים:
-            {/* {updateWork ? <input type="date" name="workDate" /> : <p>{start.toLocaleDateString()}</p>}
-            {updateWork ? <input type="time" name='beggingTime' /> : ""}
-            {updateWork ? <input type="time" name='endingTime' /> : ""} */}
 
-            {!updateWork ? <p>{start.toLocaleTimeString().slice(0, -3)} - {end.toLocaleTimeString().slice(0, -3)}</p> : ""}
+            <p>{start.toLocaleDateString()}</p>
+            <p>{start.toLocaleTimeString().slice(0, -3)} - {end.toLocaleTimeString().slice(0, -3)}</p>
+            {updateWork ?
+
+              <div> <div>תאריך:</div>
+                <input type="date" name="workDate" />
+                <div>שעת התחלה:</div>
+                <input type="time" name='beggingTime' />
+                <div>שעת סיום:</div>
+                <input type="time" name='endingTime' /></div> : ""}
 
           </div>
         </div>
