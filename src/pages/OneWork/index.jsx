@@ -63,14 +63,20 @@ export default function OneWork() {
       e.target.description.value = oneWork.description;
     }
     if (e.target.beggingTime.value === "") {
-      e.target.beggingTime.value = oneWork.beggingTime;
+      const start = new Date(oneWork.beggingTime).toLocaleTimeString().slice(0, -3)
+      e.target.beggingTime.value = start;
     }
+
     if (e.target.endingTime.value === "") {
-      e.target.endingTime.value = oneWork.endingTime;
+      const end = new Date(oneWork.endingTime).toLocaleTimeString().slice(0, -3)
+      e.target.endingTime.value = end;
     }
-    if (e.target.workDate.value === "") {
-      e.target.workDate.value = oneWork.workDate;
+
+    if (!e.target.workDate.value) {
+      const workDate = new Date(oneWork.beggingTime);
+      e.target.workDate.value = `${workDate.getFullYear()}-${(workDate.getMonth() + 1).toString().padStart(2, '0')}-${workDate.getDate().toString().padStart(2, '0')}`;
     }
+
 
     const newWork = {
 
@@ -131,9 +137,9 @@ export default function OneWork() {
               <div> <div>תאריך:</div>
                 <input type="date" name="workDate" />
                 <div>שעת התחלה:</div>
-                <input type="time" name='beggingTime' />
+                <input type="text" name='beggingTime' />
                 <div>שעת סיום:</div>
-                <input type="time" name='endingTime' /></div> : ""}
+                <input type="text" name='endingTime' /></div> : ""}
 
           </div>
         </div>
