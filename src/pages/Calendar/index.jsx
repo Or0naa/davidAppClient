@@ -207,7 +207,7 @@ export default function DemoApp() {
           headerToolbar={{
             left: 'prev,next today',
             // center: 'title',
-            // right: 'dayGridMonth,timeGridWeek,timeGridDay',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay',
           }}
           initialView='timeGridWeek'
           // now={new Date("2024-02-20T09:44:00.000Z")}
