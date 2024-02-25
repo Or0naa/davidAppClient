@@ -239,9 +239,13 @@ export default function DemoApp() {
 
   async function handleEventChange(event) {
 
+    const teamofwork = team.find(t => t.color === event.event.backgroundColor)._id
+    console.log("teamofwork", teamofwork)
+
     let newEvent = {
       beggingTime: event.event.start,
       endingTime: event.event.end,
+       teamId: teamofwork
     };
 
     // console.log("newEvent", newEvent)
