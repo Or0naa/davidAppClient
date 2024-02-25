@@ -15,8 +15,8 @@ import AddNewWork from './pages/AddNewWork'
 import EmployeeDetalse from './pages/EmployeeDetalse'
 export default function App() {
 
-  // const serverUrl = "https://davidapp.onrender.com"
-    const serverUrl = 'http://localhost:4141'
+  const serverUrl = "https://davidapp.onrender.com"
+    // const serverUrl = 'http://localhost:4141'
 
   const [employees, setEmployees] = useState([])
   const [oneEmployee, setOneEmployee] = useState({})
