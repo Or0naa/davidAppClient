@@ -139,7 +139,7 @@ export default function DemoApp() {
 
   const handleEventClick = (clickInfo) => {
     // console.log("clickInfo", clickInfo)
-    
+
     console.log(clickInfo.event.id)
     setOneWork(clickInfo.event)
     const goto = clickInfo.event.id
@@ -222,6 +222,7 @@ export default function DemoApp() {
           // initialEvents={initialEvents} // alternatively, use the `events` setting to fetch from a feed
           events={initialEvents}
 
+          timeZone="Asia/Jerusalem"
           slotMinTime="08:00"
           slotMaxTime="24:00"
           height={'90vh'}
@@ -245,7 +246,7 @@ export default function DemoApp() {
     let newEvent = {
       beggingTime: event.event.start,
       endingTime: event.event.end,
-       teamId: teamofwork
+      teamId: teamofwork
     };
 
     // console.log("newEvent", newEvent)

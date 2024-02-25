@@ -143,9 +143,9 @@ export default function OneWork() {
               <div> <div>תאריך:</div>
                 <input type="date" name="workDate" />
                 <div>שעת התחלה:</div>
-                <input type="text" name='beggingTime' />
+                <input type="time" name='beggingTime' />
                 <div>שעת סיום:</div>
-                <input type="text" name='endingTime' /></div> : ""}
+                <input type="time" name='endingTime' /></div> : ""}
 
           </div>
         </div>
