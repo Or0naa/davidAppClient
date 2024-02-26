@@ -8,6 +8,8 @@ export default function Task({ updateWork }) {
   const { oneWork, setOneWork, serverUrl } = useContext(DataContext)
 
   const [tasks, setTasks] = useState([])
+  const [numberOfTasks, setNumberOfTasks] = useState(0)
+  const [dones, setDones] = useState(0)
 
 
   useEffect(() => {
@@ -16,6 +18,9 @@ export default function Task({ updateWork }) {
         if (oneWork._id) {
           const response = await axios.get(`${serverUrl}/task/byWork/${oneWork._id}`);
           setTasks(response.data);
+          const alredydones = response.data.filter((task) => task.isDone).length;
+          setNumberOfTasks(response.data.length);
+          setDones(response.data.length - alredydones);
         }
       } catch (error) {
         console.error('Error fetching tasks:', error);
@@ -24,6 +29,8 @@ export default function Task({ updateWork }) {
 
     fetchData();
   }, [oneWork._id]);
+
+
 
   const handleDone = async (e) => {
     const id = e._id;
@@ -43,6 +50,7 @@ export default function Task({ updateWork }) {
             // If all tasks are done, update the work status to "completed"
             axios.put(`${serverUrl}/work/${oneWork._id}`, { isDone: allTasksDone, teamId: oneWork.teamId });
             setOneWork((prevWork) => ({ ...prevWork, isDone: allTasksDone }));
+            setDones(response.data.length - response.data.filter((task) => task.isDone).length);
           } catch (error) {
             console.log(error);
           }
@@ -77,6 +85,8 @@ export default function Task({ updateWork }) {
           {updateWork ? <div onClick={() => handleDeleteTask(task)}>❌</div> : ""}
         </div>
       ))}
+      <div>נשארו לביצוע {dones} מתוך {numberOfTasks}</div>
+
     </div>
   )
 }
