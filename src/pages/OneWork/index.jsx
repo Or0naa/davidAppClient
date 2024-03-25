@@ -140,23 +140,39 @@ export default function OneWork() {
       description: `${oneWork.description}(Copied)`,
     };
 
-    console.log("newWork", newWork);
+    // console.log("newWork", newWork);
+
+    let copyTasks = [];
+    for (const i of tasks) {
+      const task = {
+        workId: workId.workId,
+        taskName: i
+      };
+      await axios.post(`${serverUrl}/task/create`, task);
+      copyTasks.push(i);
+    }
 
     try {
       const res = await axios.post(`${serverUrl}/work/create`, newWork);
       const createdWorkId = res.data._id;
-      
-      for (const i of tasks) {
-        const task = {
-          workId: createdWorkId,
-          taskName: i
-        };
-        await axios.post(`${serverUrl}/task/create`, task);
+
+      try {
+        const response = await axios.get(`${serverUrl}/task/byWork/${workId.workId}`);
+        for (const i of response.data) {
+          const task = {
+            workId: createdWorkId,
+            taskName: i.taskName
+          };
+          await axios.post(`${serverUrl}/task/create`, task);
+        }
       }
-      
+      catch (error) {
+        console.error('Error fetching tasks:', error);
+      }
+
       console.log(res);
       setWork([...work, res.data]);
-      
+
       nav('/');
     } catch (error) {
       console.log("error:", error);
