@@ -2,13 +2,13 @@ import { useContext, useEffect, useState } from 'react'
 import styles from './style.module.css'
 import DataContext from '../../context/DataContext'
 import Task from '../../components/Task';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import UserContext from '../../context/UserContext';
 
 export default function OneWork() {
 
-  const { oneWork, setOneWork, serverUrl } = useContext(DataContext);
+  const { oneWork, setOneWork, serverUrl, setWork, work } = useContext(DataContext);
   const { team, user } = useContext(UserContext);
   const [teamId, setTeamId] = useState("");
   const [tasks, setTasks] = useState([]);
@@ -17,6 +17,7 @@ export default function OneWork() {
   const [updateWork, setUpdateWork] = useState(false)
   const start = new Date(oneWork.beggingTime);
   const end = new Date(oneWork.endingTime);
+  const nav = useNavigate();
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     if (!storedUser) {
@@ -109,6 +110,59 @@ export default function OneWork() {
     }
   }
 
+  const handleDelete = async () => {
+    const areUSure = window.confirm("Are you sure you want to delete this work?");
+    if (areUSure) {
+      try {
+        const res = await axios.delete(`${serverUrl}/work/` + workId.workId);
+        console.log(res);
+        setOneWork(null);
+        nav("/");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    else {
+      return;
+    }
+  };
+
+  const handleCopy = async () => {
+    const newWork = {
+
+      beggingTime: oneWork.beggingTime,
+      endingTime: oneWork.endingTime,
+      teamId: teamId,
+      price: oneWork.price,
+      address: oneWork.address,
+      phoneClient: oneWork.phoneClient,
+      clientName: oneWork.clientName,
+      description: `${oneWork.description}(Copied)`,
+    };
+
+    console.log("newWork", newWork);
+
+    try {
+      const res = await axios.post(`${serverUrl}/work/create`, newWork);
+      const createdWorkId = res.data._id;
+      
+      for (const i of tasks) {
+        const task = {
+          workId: createdWorkId,
+          taskName: i
+        };
+        await axios.post(`${serverUrl}/task/create`, task);
+      }
+      
+      console.log(res);
+      setWork([...work, res.data]);
+      
+      nav('/');
+    } catch (error) {
+      console.log("error:", error);
+    }
+  }
+
 
 
   return (
@@ -119,13 +173,8 @@ export default function OneWork() {
             פרטי הלקוח:
             <p>{oneWork.clientName}</p>
             {updateWork ? <input type="text" name="clientName" placeholder='שם' /> : ""}
-            {/* <p>{oneWork.phoneClient}</p> */}
             <a href={`tel:${oneWork.phoneClient}`}>{oneWork.phoneClient}</a>
             {updateWork ? <input type="text" name="phoneClient" placeholder='טלפון' /> : ""}
-            {/* <p>{oneWork.address}</p> */}
-            {/* <a href={`https://www.google.com/maps?q=${encodeURIComponent(oneWork.address)}`} target="_blank">{oneWork.address}</a> */}
-            {/* <a href={`https://www.waze.com/ul?q=${encodeURIComponent(oneWork.address)}`} target="_blank">{oneWork.address}</a> */}
-            {/* <a href="https://waze.com/ul?q=${encodeURIComponent(oneWork.address)}&navigate=yes" target="_blank">{oneWork.address}</a> */}
             <a href={`waze://?q=${encodeURIComponent(oneWork.address)}`} target="_blank">
               {oneWork.address}
             </a>
@@ -201,6 +250,9 @@ export default function OneWork() {
       </form>
 
       {user && user.permission === "admin" && !updateWork && (<button onClick={() => setUpdateWork(!updateWork)}>עריכה</button>)}
+      {user && user.permission === "admin" && (<button onClick={() => handleDelete()}>מחיקה</button>)}
+      {user && user.permission === "admin" && (<button onClick={() => handleCopy()}>שיכפול עבודה</button>)}
+
     </div>
   )
 }
